@@ -37,10 +37,10 @@ namespace fivem_taser
             if (API.GetCurrentResourceName() != resourceName) return;
 
             //Used for debug
-            API.RegisterCommand("nui_show", new Action<int, List<object>, string>((source, args, raw) =>
+            /*API.RegisterCommand("nui_show", new Action<int, List<object>, string>((source, args, raw) =>
             {
                 TriggerEvent("better_taser:nui");
-            }), false);
+            }), false);*/
 
             // Also used for debug
             /*API.RegisterCommand("spawntaserped", new Action<int, List<object>, string>(async(source, args, raw) =>
