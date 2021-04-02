@@ -11,6 +11,8 @@ using CitizenFX.Core;
 using CitizenFX.Core.Native;
 using CitizenFX.Core.UI;
 
+using static fivem_taser.FuncHelper;
+
 
 namespace fivem_taser
 {
@@ -35,10 +37,10 @@ namespace fivem_taser
             if (API.GetCurrentResourceName() != resourceName) return;
 
             //Used for debug
-            /*API.RegisterCommand("nui_show", new Action<int, List<object>, string>((source, args, raw) =>
+            API.RegisterCommand("nui_show", new Action<int, List<object>, string>((source, args, raw) =>
             {
                 TriggerEvent("better_taser:nui");
-            }), false);*/
+            }), false);
 
             // Also used for debug
             /*API.RegisterCommand("spawntaserped", new Action<int, List<object>, string>(async(source, args, raw) =>
@@ -243,7 +245,7 @@ namespace fivem_taser
             {
                 percent++;
                 await Delay(1000);
-                if (battery_charges == 4) break;
+                //if (battery_charges == 4) break;
                 if (stoploading) { stoploading = false; break; }
             }
         }
@@ -277,7 +279,16 @@ namespace fivem_taser
                 Function.Call(Hash._ADD_TEXT_COMPONENT_STRING, $"~w~Ładowanie ~y~tasera~w~: ~p~{text}%");
                 Function.Call(Hash._DRAW_TEXT, pos.X, pos.Y);
 
-                if(LocalPlayer.Character.Health < 100)
+                if (LocalPlayer.Character.Weapons.Current.Hash == WeaponHash.StunGun)
+                {
+                    API.DisableControlAction(2, 24, true);
+                    API.DisableControlAction(2, 257, true);
+                    API.DisableControlAction(2, 69, true);
+                    API.DisableControlAction(2, 92, true);
+                    API.DisableControlAction(2, 142, true);
+                }
+
+                if (LocalPlayer.Character.Health < 1 || LocalPlayer.Character.IsRagdoll)
                 {
                     stoploading = true;
                     percent = 0;
